@@ -1,0 +1,203 @@
+@startuml
+
+package line {
+  class LineNumber {
+    - Int
+
+    + "==()"
+    + >=()
+    + <=()
+    + {static} Option[LineNumber] parse(String)
+  }
+
+  class LineRange {
+    - LineNumber start
+    - LineNumber end
+
+    + Bool include(LineNumber)
+    + {static} Option[LineRange] parse(String)
+  }
+
+  LineRange -r-> LineNumber
+
+  class Body {
+    - String
+
+    + Body map(String -> String)
+  }
+
+  class Text {
+    - String
+
+    + {static} Option[Text] parse(String)
+  }
+
+  class Line {
+    - LineNumber
+    - Body body
+
+    + Body mapIf(LineRange, String -> String)
+    + Body mapIf(LineNumber, String -> String)
+    + List[Body] mapIf(LineRange, String -> List[String])
+    + List[Body] mapIf(LineNumber, String -> List[String])
+    + List[Body] mapIf(LineNumber, String -> List[String], LineRange, String -> Option[String])
+    + Option[Body] yank(LineRange)
+    + String display()
+  }
+
+  Line -u-> LineNumber
+  Line -r-> Body
+
+  class Lines {
+    - [Line]
+
+    + {static} Lines sequenceWith([Body])
+    + Lines map(Line -> Body)
+    + Lines flatMap(Line -> List[Body])
+    + List[Body] yank(LineRange)
+  }
+
+  Lines -u-> Line
+}
+
+package Command {
+  interface Command {
+    + Lines do(Lines)
+    # Option[UndoCommand] undo() { None }
+    + {static} Option[Command] dispatch(String) { ... }
+    + {static} Option[Command] parse(String)
+  }
+
+  interface UndoableCommand {
+    # Option[UndoCommand] undo()
+  }
+
+  UndoableCommand -u-|> Command
+
+  interface UndoCommand {
+  }
+
+  Command -r-> "0..1" UndoCommand
+  UndoableCommand -[hidden]u-> "0..1" UndoCommand
+
+  class Append {
+    - LineNumber
+    - Text
+  }
+
+  class DeletionUndo {
+    - LineNumber
+  }
+
+  Append --> DeletionUndo
+  
+  class Delete {
+    - LineRange
+  }
+
+  class DeleteUndo {
+    - LineNumber
+    - [Text]
+  }
+
+  Delete --> DeleteUndo
+  
+  class Move {
+    - LineRange
+    - LineNumber
+  }
+
+  class MoveUndo {
+    - LineNumber
+    - [Text]
+  }
+
+  Move --> MoveUndo
+
+  class Copy {
+    - LineRange
+    - LineNumber
+  }
+
+  Copy --> DeletionUndo
+
+  class Substitute {
+    - LineRange
+    - Text src
+    - Text dst
+  }
+
+  class ConvertUndo {
+    - LineRange
+    - [Text]
+  }
+
+  Substitute --> ConvertUndo
+  
+  class Undo {
+  }
+  
+  class Execute {
+    - LineRange
+    - Text regex
+    - Motions
+  }
+
+  Execute --> ConvertUndo
+
+  class Motions {
+    - [Motion]
+
+    + String -> String convert()
+  }
+
+  enum Motion {
+    - Capitalize
+    - Period
+    - Delete
+    + String -> String convert()
+  }
+  
+  Execute -d-> Motions
+  Motions -d-> Motion
+  
+  class Write {
+  }
+  
+  Append -u-|> UndoableCommand
+  DeletionUndo -u-|> UndoCommand
+  Delete -u-|> UndoableCommand
+  DeleteUndo -u-|> UndoCommand
+  Move -u-|> UndoableCommand
+  Copy -u-|> UndoableCommand
+  MoveUndo -u-|> UndoCommand
+  Substitute -u-|> UndoableCommand
+  Execute -u---|> UndoableCommand
+  ConvertUndo -u-|> UndoCommand
+  Undo --|> Command
+  Write --|> Command
+  Append -[hidden]r-> Delete
+  Delete -[hidden]r-> Move
+  Move -[hidden]r-> Substitute
+}
+
+Command -u-> Lines
+
+package editor {
+  class Editor {
+    - Lines
+    - Option[UndoCommand] last
+
+    + {static} Editor boot(FilePath)
+    + action()
+    - display()
+    - Command prompt()
+  }
+}
+
+Editor -l-> "0..1" UndoCommand
+Editor -l-> Lines
+
+Main -l-> Editor
+
+@enduml
