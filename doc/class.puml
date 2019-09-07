@@ -7,24 +7,33 @@ package line {
     + "==()"
     + >=()
     + <=()
-    + {static} Option[LineNumber] parse(String)
+    + {static} Option[LineNumber] parse(String, Int last)
   }
 
   class LineRange {
     - LineNumber start
     - LineNumber end
 
-    + Bool include(LineNumber)
+    + Bool contains(LineRange, LineNumber)
     + {static} Option[LineRange] parse(String)
   }
 
   LineRange -r-> LineNumber
 
-  class Body {
-    - String
-
+  interface Body {
     + Body map(String -> String)
+    + Body sMap(Body -> Seq[Body])
   }
+
+  class NonEmptyBody {
+    - String
+  }
+
+  class EmptyBody {
+  }
+
+  NonEmptyBody -u-|> Body
+  EmptyBody -u-|> Body
 
   class Text {
     - String
@@ -32,53 +41,57 @@ package line {
     + {static} Option[Text] parse(String)
   }
 
+  Text -d-> Body
+
   class Line {
     - LineNumber
     - Body body
 
     + Body mapIf(LineRange, String -> String)
     + Body mapIf(LineNumber, String -> String)
-    + List[Body] mapIf(LineRange, String -> List[String])
-    + List[Body] mapIf(LineNumber, String -> List[String])
-    + List[Body] mapIf(LineNumber, String -> List[String], LineRange, String -> Option[String])
+    + Seq[Body] sMapIf(LineRange, Body -> Seq[Body])
+    + Seq[Body] sMapIf(LineNumber, Body -> Seq[Body])
+    + Seq[Body] sMapIfOr(LineNumber, Body -> Seq[Body], LineRange, Body -> Seq[Body])
     + Option[Body] yank(LineRange)
-    + String display()
+    + Option[String] display()
   }
 
   Line -u-> LineNumber
+  Line -u-> LineRange
   Line -r-> Body
 
   class Lines {
     - [Line]
 
     + {static} Lines sequenceWith([Body])
+    + Int $()
     + Lines map(Line -> Body)
-    + Lines flatMap(Line -> List[Body])
-    + List[Body] yank(LineRange)
+    + Lines sMap(Line -> Seq[Body])
+    + Seq[Body] yank(LineRange)
+    + Seq[String] display()
   }
 
   Lines -u-> Line
 }
 
-package Command {
+package command {
   interface Command {
-    + Lines do(Lines)
-    # Option[UndoCommand] undo() { None }
-    + {static} Option[Command] dispatch(String) { ... }
-    + {static} Option[Command] parse(String)
   }
 
-  interface UndoableCommand {
-    # Option[UndoCommand] undo()
+  interface "ExecutableCommand / ParsableCommand" as ExecutableCommand {
+    + Lines execute(Lines)
+    + Option[UndoCommand] undo(Lines)
+    + {static} Option[Command] dispatch(String, Int last) { ... }
+    + {static} Option[Command] parse(String, Int last)
   }
 
-  UndoableCommand -u-|> Command
+  ExecutableCommand -u-|> Command
 
   interface UndoCommand {
+    + Lines execute(Lines)
   }
 
-  Command -r-> "0..1" UndoCommand
-  UndoableCommand -[hidden]u-> "0..1" UndoCommand
+  ExecutableCommand -d-> "0..1" UndoCommand
 
   class Append {
     - LineNumber
@@ -97,7 +110,7 @@ package Command {
 
   class DeleteUndo {
     - LineNumber
-    - [Text]
+    - [Body]
   }
 
   Delete --> DeleteUndo
@@ -129,12 +142,13 @@ package Command {
 
   class ConvertUndo {
     - LineRange
-    - [Text]
+    - [Body]
   }
 
   Substitute --> ConvertUndo
   
   class Undo {
+    // and extends ParsableCommand
   }
   
   class Execute {
@@ -154,7 +168,6 @@ package Command {
   enum Motion {
     - Capitalize
     - Period
-    - Delete
     + String -> String convert()
   }
   
@@ -162,20 +175,21 @@ package Command {
   Motions -d-> Motion
   
   class Write {
+    // and extends ParsableCommand
   }
   
-  Append -u-|> UndoableCommand
+  Append -u-|> ExecutableCommand
   DeletionUndo -u-|> UndoCommand
-  Delete -u-|> UndoableCommand
+  Delete -u-|> ExecutableCommand
   DeleteUndo -u-|> UndoCommand
-  Move -u-|> UndoableCommand
-  Copy -u-|> UndoableCommand
+  Move -u-|> ExecutableCommand
+  Copy -u-|> ExecutableCommand
   MoveUndo -u-|> UndoCommand
-  Substitute -u-|> UndoableCommand
-  Execute -u---|> UndoableCommand
+  Substitute -u-|> ExecutableCommand
+  Execute -u---|> ExecutableCommand
   ConvertUndo -u-|> UndoCommand
-  Undo --|> Command
-  Write --|> Command
+  Undo -u-|> Command
+  Write -u-|> Command
   Append -[hidden]r-> Delete
   Delete -[hidden]r-> Move
   Move -[hidden]r-> Substitute
@@ -195,9 +209,7 @@ package editor {
   }
 }
 
-Editor -l-> "0..1" UndoCommand
-Editor -l-> Lines
-
-Main -l-> Editor
+Editor -d-> Command
+Editor -u-> Lines
 
 @enduml

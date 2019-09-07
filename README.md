@@ -18,6 +18,7 @@
 + 現在の編集内容を表示し、最終行の`> `に続きコマンドを入力する
   + 各行の先頭には`[line-number]: `を表示する
 + 正常なコマンドを入力した場合は、編集内容と次のコマンド入力プロンプト`> `が表示される
++ 内容が１行もない場合は、内容を１行の空行とする
 
 #### command-name
 + `append (a)`で示されるコマンドは、`append`か`a`で実行できる
@@ -45,7 +46,7 @@
 + `%`は`1,$`と同意である
 
 #### text
-+ `"` + 任意の文字列 + `"`
++ 任意の文字列
   + `/`を含むことができる
   + `\n`等特殊文字は含まない
 
@@ -63,7 +64,7 @@ $ line-editor hello.txt
 5: 
 6: good practice!
 
-> 1 append "# made by suzuki-hoge"
+> 1append/# made by suzuki-hoge
 > 
 ```
 
@@ -80,7 +81,7 @@ $ line-editor hello.txt
 5: 
 6: good practice!
 
-> 1/append/"# made by suzuki-hoge"
+> 1/append/# made by suzuki-hoge
 
 1: welcome to line-editor
 2: # made by suzuki-hoge
@@ -106,7 +107,7 @@ $ line-editor hello.txt
 5: 
 6: good practice!
 
-> 4/i/""
+> 4/i/
 
 1: welcome to line-editor
 2: 
@@ -151,11 +152,9 @@ $ line-editor hello.txt
 5: 
 6: good practice!
 
-> 4,$/delete
+> 1,$/delete
 
-1: welcome to line-editor
-2: 
-3: this work is coding practice with simple line editor creation
+1: 
 
 > 
 ```
@@ -168,6 +167,8 @@ $ line-editor hello.txt
 ただし、以下の場合は不正コマンドとする
 
 + `[line-number]`を`[line-range]`に含む場合
++ `[line-number]`が`[start-line-number]`と等しい場合
++ `[line-number]`が`[end-line-number]`と等しい場合
 
 ```
 1: welcome to line-editor
@@ -270,7 +271,7 @@ $ line-editor hello.txt
 5: 
 6: good practice!
 
-> 4/s/"ed"/"ed and vi"
+> 4/s/ed/ed and vi
 
 1: welcome to line-editor
 2: 
@@ -301,7 +302,7 @@ $ line-editor hello.txt
 5: 
 6: good practice!
 
-> 1/append/"# made by suzuki-hoge"
+> 1/append/# made by suzuki-hoge
 
 1: welcome to line-editor
 2: # made by suzuki-hoge
@@ -340,7 +341,7 @@ $ line-editor hello.txt
 5: 
 6: good practice!
 
-> 1/append/"# made by suzuki-hoge"
+> 1/append/# made by suzuki-hoge
 
 1: welcome to line-editor
 2: # made by suzuki-hoge
@@ -377,13 +378,12 @@ $ line-editor hello.txt
 
 `[line-range]`の行の`[regex-text]`に一致した行に対して`[motion]`を実行する
 
-`[motion]`は`c`, `p`, `d`を任意数繋げて表現される
+`[motion]`は`c`, `p`を任意数繋げて表現される
 
 + `c (capitalize)`: 行の先頭を大文字にする
 + `p (period)`: 行の末尾に`.`を付与する
-+ `d (delete)`: 行を削除する
-+ `cpd`の順番は問わない
-+ `cpd`の間には任意数の`半角スペース`を含めることができる
++ `cp`の順番は問わない
++ `cp`の間には任意数の`半角スペース`を含めることができる
 
 ```
 1: welcome to line-editor
@@ -394,23 +394,15 @@ $ line-editor hello.txt
 6: 
 7: good practice!
 
-> % e/"^#"/d
+> 1, $/execute/\w$/c p
 
-1: welcome to line-editor
-2: 
-3: this work is coding practice with simple line editor creation
-4: if you are interested in line editor, check out linux "ed"
-5: 
-6: good practice!
-
-> 3, $/execute/"\w$"/c p
-
-1: welcome to line-editor
-2: 
-3: This work is coding practice with simple line editor creation.
-4: If you are interested in line editor, check out linux "ed".
-5: 
-6: good practice!
+1: Welcome to line-editor.
+2: # made by suzuki-hoge.
+3: 
+4: This work is coding practice with simple line editor creation.
+5: if you are interested in line editor, check out linux "ed"
+6: 
+7: good practice!
 
 > 
 ```
