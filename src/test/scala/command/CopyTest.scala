@@ -27,13 +27,13 @@ class CopyTest extends FunSuite {
     val executed3 = sut3.execute(lines)
 
     assert(
-      sut1.undo(lines).get.execute(executed1) == lines
+      sut1.undo(lines).execute(executed1) == lines
     )
     assert(
-      sut2.undo(lines).get.execute(executed2) == lines
+      sut2.undo(lines).execute(executed2) == lines
     )
     assert(
-      sut3.undo(lines).get.execute(executed3) == lines
+      sut3.undo(lines).execute(executed3) == lines
     )
   }
 

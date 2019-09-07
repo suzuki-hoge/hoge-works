@@ -1,7 +1,7 @@
 package command
 
-object Write extends Command with ParsableCommand {
-  override def parse(s: String, last: Int): Option[Command] = s.trim match {
+object Write extends EditorCommand {
+  def parse(s: String): Option[Write.type] = s.trim match {
     case "write" => Some(Write)
     case "w" => Some(Write)
     case _ => None

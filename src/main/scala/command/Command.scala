@@ -2,11 +2,14 @@ package command
 
 import line.Lines
 
-trait Command {
+trait LineCommand {
+  def execute(ls: Lines): Lines
+
+  def undo(ls: Lines): UndoCommand
 }
 
-object Command {
-  def dispatch(s: String, last: Int): Option[Command] = Seq(
+object LineCommand {
+  def parse(s: String, last: Int): Option[LineCommand] = Seq(
     Append.parse(s, last),
     Delete.parse(s, last),
     Copy.parse(s, last),
@@ -16,14 +19,14 @@ object Command {
   ).flatten.headOption
 }
 
-trait ParsableCommand {
-  def parse(s: String, last: Int): Option[Command]
+trait EditorCommand {
 }
 
-trait ExecutableCommand extends Command {
-  def execute(ls: Lines): Lines
-
-  def undo(ls: Lines): Option[UndoCommand]
+object EditorCommand {
+  def parse(s: String, undoCommand: Option[UndoCommand]): Option[EditorCommand] = Seq(
+    Undo.parse(s, undoCommand),
+    Write.parse(s)
+  ).flatten.headOption
 }
 
 trait UndoCommand {

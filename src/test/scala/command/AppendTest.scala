@@ -18,7 +18,7 @@ class AppendTest extends FunSuite {
     val executed = sut.execute(lines)
 
     assert(
-      sut.undo(lines).get.execute(executed) == lines
+      sut.undo(lines).execute(executed) == lines
     )
   }
 

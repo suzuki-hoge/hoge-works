@@ -32,8 +32,12 @@ package line {
   class EmptyBody {
   }
 
+  class NonVisibleBody {
+  }
+
   NonEmptyBody -u-|> Body
   EmptyBody -u-|> Body
+  NonVisibleBody -u-|> Body
 
   class Text {
     - String
@@ -75,37 +79,36 @@ package line {
 }
 
 package command {
-  interface Command {
+  interface EditorCommand {
   }
 
-  interface "ExecutableCommand / ParsableCommand" as ExecutableCommand {
+  interface LineCommand {
     + Lines execute(Lines)
-    + Option[UndoCommand] undo(Lines)
-    + {static} Option[Command] dispatch(String, Int last) { ... }
-    + {static} Option[Command] parse(String, Int last)
+    + UndoCommand undo(Lines)
+    + {static} Option[LineCommand] parse(String, Int last) { ... }
   }
-
-  ExecutableCommand -u-|> Command
 
   interface UndoCommand {
     + Lines execute(Lines)
   }
 
-  ExecutableCommand -d-> "0..1" UndoCommand
+  LineCommand -d-> UndoCommand
 
   class Append {
     - LineNumber
     - Text
+    + Option[Append] parse(String, Int last)
   }
 
   class DeletionUndo {
-    - LineNumber
+    - LineRange
   }
 
   Append --> DeletionUndo
   
   class Delete {
     - LineRange
+    + Option[Delete] parse(String, Int last)
   }
 
   class DeleteUndo {
@@ -118,6 +121,7 @@ package command {
   class Move {
     - LineRange
     - LineNumber
+    + Option[Move] parse(String, Int last)
   }
 
   class MoveUndo {
@@ -130,6 +134,7 @@ package command {
   class Copy {
     - LineRange
     - LineNumber
+    + Option[Copy] parse(String, Int last)
   }
 
   Copy --> DeletionUndo
@@ -138,6 +143,7 @@ package command {
     - LineRange
     - Text src
     - Text dst
+    + Option[Substitute] parse(String, Int last)
   }
 
   class ConvertUndo {
@@ -148,13 +154,14 @@ package command {
   Substitute --> ConvertUndo
   
   class Undo {
-    // and extends ParsableCommand
+    + Option[Undo] parse(String)
   }
-  
+
   class Execute {
     - LineRange
     - Text regex
     - Motions
+    + Option[Execute] parse(String, Int last)
   }
 
   Execute --> ConvertUndo
@@ -175,41 +182,58 @@ package command {
   Motions -d-> Motion
   
   class Write {
-    // and extends ParsableCommand
+    + Option[Write] parse(String)
   }
-  
-  Append -u-|> ExecutableCommand
+
+  Append -u-|> LineCommand
   DeletionUndo -u-|> UndoCommand
-  Delete -u-|> ExecutableCommand
+  Delete -u-|> LineCommand
   DeleteUndo -u-|> UndoCommand
-  Move -u-|> ExecutableCommand
-  Copy -u-|> ExecutableCommand
+  Move -u-|> LineCommand
+  Copy -u-|> LineCommand
   MoveUndo -u-|> UndoCommand
-  Substitute -u-|> ExecutableCommand
-  Execute -u---|> ExecutableCommand
+  Substitute -u-|> LineCommand
+  Execute -u---|> LineCommand
   ConvertUndo -u-|> UndoCommand
-  Undo -u-|> Command
-  Write -u-|> Command
+  Undo -u-|> EditorCommand
+  Write -u-|> EditorCommand
   Append -[hidden]r-> Delete
   Delete -[hidden]r-> Move
   Move -[hidden]r-> Substitute
 }
 
-Command -u-> Lines
+LineCommand -u-> Lines
 
 package editor {
   class Editor {
+    - String path
     - Lines
     - Option[UndoCommand] last
 
     + {static} Editor boot(FilePath)
     + action()
-    - display()
-    - Command prompt()
+    - InputtedCommand input()
+    + end()
   }
+
+  interface InputtedCommand
+
+  class InputtedLineCommand {
+    + LineCommand
+  }
+
+  class InputtedEditorCommand {
+    + EditorCommand
+  }
+
+  InputtedLineCommand -d-|> InputtedCommand
+  InputtedEditorCommand -d-|> InputtedCommand
+
+  Editor -l-> InputtedCommand
 }
 
-Editor -d-> Command
+InputtedCommand -d-> "0..1" LineCommand
+InputtedCommand -d-> "0..1" EditorCommand
 Editor -u-> Lines
 
 @enduml

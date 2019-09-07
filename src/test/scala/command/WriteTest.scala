@@ -7,16 +7,16 @@ class WriteTest extends FunSuite {
 
   test("parse") {
     assert(
-      Write.parse("write", last).contains(Write)
+      Write.parse("write").contains(Write)
     )
     assert(
-      Write.parse("w", last).contains(Write)
+      Write.parse("w").contains(Write)
     )
   }
 
   test("parse (no match)") {
     assert(
-      Write.parse("1/write", last).isEmpty
+      Write.parse("1/write").isEmpty
     )
   }
 }

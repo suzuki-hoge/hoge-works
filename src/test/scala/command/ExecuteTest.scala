@@ -23,10 +23,10 @@ class ExecuteTest extends FunSuite {
     val executed2 = sut2.execute(lines)
 
     assert(
-      sut1.undo(lines).get.execute(executed1) == lines
+      sut1.undo(lines).execute(executed1) == lines
     )
     assert(
-      sut2.undo(lines).get.execute(executed2) == lines
+      sut2.undo(lines).execute(executed2) == lines
     )
   }
 
