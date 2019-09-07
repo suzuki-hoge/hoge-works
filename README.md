@@ -358,6 +358,7 @@ $ line-editor hello.txt
   + ex) `undo を何度でもできる様にする`
   + ex) `redo`を実装する
   + ex) `Substitute を Execute の motion にする`
+  + ex) コマンドの入力不正理由を表示する
 + ふりかえりの後、定めた時間以上続けたり、すぐにやり直しても当然良い
 
 ## 学習観点
