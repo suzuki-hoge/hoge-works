@@ -1,0 +1,83 @@
+@startuml
+
+namespace core {
+  class Key {
+    - String
+  }
+  class Value {
+    - String
+  }
+  Element -u-> "1" Key
+  Element -u-> "1" Value
+
+  Record -u-> "*" Element
+
+  Data -u-> "*" Record
+}
+
+namespace util {
+  class ListUtil {
+    + {static} List<String> split(String s, String separator)
+    + {static} List<String> splitAndTrim(String s, String separator)
+    + {static} T head(List<T>)
+    + {static} List<T> tail(List<T>)
+  }
+}
+
+namespace comma_separated {
+  class SrcParser {
+    + {static} Data parse(List<String>)
+    - {static} List<core.Element> zip(List<core.Key>, List<core.Value>)
+  }
+  class SrcKeysParser {
+    + {static} List<core.Key> parse(String)
+  }
+  class SrcValuesParser {
+    + {static} List<core.Value> parse(String)
+  }
+  SrcParser -d-> SrcKeysParser
+  SrcParser -d-> SrcValuesParser
+  SrcParser -u--> core.Data
+
+  class DstParser {
+    + {static} List<String> parse(Data)
+  }
+  class DstKeysParser {
+    + {static} String parse(Record)
+    - {static} String spacedLower(core.Key)
+  }
+  class DstValuesParser {
+    + {static} String parse(Record)
+  }
+
+  DstParser -d-> DstKeysParser
+  DstParser -d-> DstValuesParser
+  DstParser -u--> core.Data
+}
+
+namespace labeled_tab_separated {
+  note "ほぼ同じため割愛" as LTSNote
+}
+
+namespace blocks {
+  note "ほぼ同じため割愛" as BNote
+}
+
+namespace boot {
+  class Main {
+    + {static} void main(String[])
+    - String asPath(String[])
+    - Format asSrc(String[])
+    - Format asDst(String[])
+  }
+
+  enum Format {
+    C, T, B
+  }
+
+  Main -l-> Format
+  Main --> comma_separated.SrcParser
+  Main --> comma_separated.DstParser
+}
+
+@enduml
