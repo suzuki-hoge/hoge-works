@@ -32,3 +32,5 @@
 + 思ったより時間がかかった
   + クラス図におよそ 2h, 実装におよそ 8h 要した
   + 詳細内訳はコミットメッセージ参照
+    + [implement line package and command package.](https://github.com/suzuki-hoge/hoge-work/commit/1a0a8f1050cffe83572865519e91896c9f7ce540)
+    + [implement editor package.](https://github.com/suzuki-hoge/hoge-work/commit/5bf08f4a9fe37bdf133ca479c2f2782634cc0e50)
