@@ -1,4 +1,4 @@
-name := "line-editor"
+name := "words-printer"
 
 version := "0.1"
 
