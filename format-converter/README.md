@@ -11,16 +11,16 @@ order id,item name,item price,item quantity
 2,fried chicken, 160, 1
 3,tea,120,2
 
-$ format-converter comma-separated-sample.txt --src c --dst t
+$ format-converter comma-separated-sample.txt --src=c --dst=t
 
 order-id:1	item-name:sandwich	item-price:120	item-quantity:1
 order-id:2	item-name:fried chicken	item-price:160	item-quantity:1
 order-id:3	item-name : tea	item-price : 120	item-quantity : 2
 ```
 
-の様な形で実行する
+の様な形で実行する。
 
-コマンド名は細かくは何でも良い
+コマンド名は細かくは何でも良いが、`--src`と`--dst`の順番は逆でも動くこと。
 
 ### 基本仕様
 + `[path]`は変換元となるファイルパス

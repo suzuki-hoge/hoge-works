@@ -73,6 +73,8 @@ namespace boot {
 
   enum Format {
     C, T, B
+    - Function<List<String>, Data>
+    - Function<Data, List<String>>
   }
 
   Main -l-> Format
