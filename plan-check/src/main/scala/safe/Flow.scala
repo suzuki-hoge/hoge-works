@@ -5,10 +5,10 @@ import safe.message.Line
 import unsafe.Parser
 
 object Flow {
-  def apply(in: String): String = {
-    Parser.planName(in)
-      .map(Plans.get)
-      .map(Line)
-      .fold(_ => "不正なプラン名です。", _.show)
-  }
+  def apply(plan: String, user: String): String = (
+    for {
+      plan <- Parser.planName(plan).left.map(_ => "不正なプラン名です。")
+      user <- Parser.userType(user).left.map(_ => "不正なタイプです。")
+    } yield Plans.get(plan, user)
+    ).map(Line).fold(identity, _.show)
 }

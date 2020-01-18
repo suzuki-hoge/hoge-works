@@ -3,7 +3,12 @@ package safe.message
 import safe.domain._
 
 case class Line(plan: Plan) {
-  def show: String = s"${show(plan.name)}プラン は 毎月 ${show(plan.price)} 円 で ${show(plan.size)} GB ご利用できます。"
+  def show: String = s"${show(plan.user)}会員 の方は ${show(plan.name)}プラン を 毎月 ${show(plan.price)} 円 で ${show(plan.size)} GB ご利用できます。"
+
+  private def show(user:UserType): String = user match {
+    case Basic => "ベーシック"
+    case Premium => "プレミアム"
+  }
 
   private def show(name: PlanName): String = name match {
     case Small => "スモール"

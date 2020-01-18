@@ -5,10 +5,13 @@ import org.scalatest.FunSuite
 class FlowTest extends FunSuite {
   test("apply") {
     assert(
-      Flow("small").startsWith("スモールプラン")
+      Flow("small", "basic").startsWith("ベーシック")
     )
     assert(
-      Flow("big") == "不正なプラン名です。"
+      Flow("big", "basic") == "不正なプラン名です。"
+    )
+    assert(
+      Flow("normal", "free") == "不正なタイプです。"
     )
   }
 }

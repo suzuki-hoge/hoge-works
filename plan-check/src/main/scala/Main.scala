@@ -4,7 +4,10 @@ import scala.io.StdIn
 
 object Main extends App {
   print("plan ( small / normal / large ): ")
-  val in = StdIn.readLine()
+  val plan = StdIn.readLine()
 
-  println(Flow(in))
+  print("user ( basic / premium ): ")
+  val user = StdIn.readLine()
+
+  println(Flow(plan, user))
 }
