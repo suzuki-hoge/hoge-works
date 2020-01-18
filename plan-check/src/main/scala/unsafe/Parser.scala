@@ -7,6 +7,7 @@ object Parser {
     case "small" => Right(Small)
     case "normal" => Right(Normal)
     case "large" => Right(Large)
+    case "mega" => Right(Mega)
     case _ => Left("invalid name")
   }
 

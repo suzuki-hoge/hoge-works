@@ -13,5 +13,11 @@ class FlowTest extends FunSuite {
     assert(
       Flow("normal", "free") == "不正なタイプです。"
     )
+    assert(
+      Flow("mega", "basic") == "不正な組み合わせです。"
+    )
+    assert(
+      Flow("mega", "premium").startsWith("プレミアム")
+    )
   }
 }

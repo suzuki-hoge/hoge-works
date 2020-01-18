@@ -14,6 +14,7 @@ case class Line(plan: Plan) {
     case Small => "スモール"
     case Normal => "ノーマル"
     case Large => "ラージ"
+    case Mega => "メガ"
   }
 
   private def show(price: PlanPrice): String = price.v.toString.replace("000", ",000")
