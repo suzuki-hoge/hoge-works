@@ -1,4 +1,4 @@
-# Hoge Work
+# Hoge Works
 ## :star:
 ### Words Printer
 文字列の変換と出力を行う処理を実装する
