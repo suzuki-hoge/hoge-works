@@ -17,7 +17,7 @@ public interface Hand {
     // hands
 
     enum Name {
-        HighCard, OnePair, TwoPair, ThreeOfAKind, Straight, Flush, FullHouse, FourOfAKind, StraightFlush, RoyalStraightFlush
+        OnePair, TwoPair, ThreeOfAKind, Straight, Flush, FullHouse, FourOfAKind, StraightFlush, RoyalStraightFlush
     }
 
     static Option<Tuple2<Name, Card>> match(List<Card> cards) {
