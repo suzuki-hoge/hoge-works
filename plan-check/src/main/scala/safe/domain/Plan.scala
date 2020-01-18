@@ -1,7 +1,7 @@
 package safe.domain
 
 object Plans {
-  def get(name: PlanName, user: UserType): Either[String, Plan] = (name, user) match {
+  def get(current: PlanName, user: UserType): Either[String, Plan] = (current, user) match {
     case (Small, Basic) => Right(Plan(Small, PlanPrice(3000), PlanSize(1), user))
     case (Normal, Basic) => Right(Plan(Normal, PlanPrice(5000), PlanSize(3), user))
     case (Large, Basic) => Right(Plan(Large, PlanPrice(7000), PlanSize(5), user))
@@ -13,7 +13,14 @@ object Plans {
   }
 }
 
-case class Plan(name: PlanName, price: PlanPrice, size: PlanSize, user: UserType)
+case class Plan(current: PlanName, price: PlanPrice, size: PlanSize, user: UserType) {
+  def change(next: PlanName): Either[String, Plan] = (next, user) match {
+    case (Small, _) => Left("small is not allowed")
+    case (_next, _) if current == _next => Left("same plan")
+    case (Mega, Basic) => Left("basic mega is not allowed")
+    case _ => Plans.get(next, user)
+  }
+}
 
 sealed trait PlanName
 

@@ -3,11 +3,14 @@ import safe.Flow
 import scala.io.StdIn
 
 object Main extends App {
-  print("plan ( small / normal / large / mega ): ")
-  val plan = StdIn.readLine()
+  print("current plan ( small / normal / large / mega ): ")
+  val current = StdIn.readLine()
 
   print("user ( basic / premium ): ")
   val user = StdIn.readLine()
 
-  println(Flow(plan, user))
+  print("next plan ( small / normal / large / mega ): ")
+  val next = StdIn.readLine()
+
+  println(Flow(current, user, next))
 }

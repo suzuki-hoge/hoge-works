@@ -5,19 +5,28 @@ import org.scalatest.FunSuite
 class FlowTest extends FunSuite {
   test("apply") {
     assert(
-      Flow("small", "basic").startsWith("ベーシック")
+      Flow("small", "basic", "normal").contains("ノーマル")
     )
     assert(
-      Flow("big", "basic") == "不正なプラン名です。"
+      Flow("big", "basic", "normal") == "不正なプラン名です。"
     )
     assert(
-      Flow("normal", "free") == "不正なタイプです。"
+      Flow("normal", "free", "normal") == "不正なタイプです。"
     )
     assert(
-      Flow("mega", "basic") == "不正な組み合わせです。"
+      Flow("mega", "basic", "normal") == "不正な組み合わせです。"
     )
     assert(
-      Flow("mega", "premium").startsWith("プレミアム")
+      Flow("normal", "basic", "small") == "スモールプランへの変更はできません。"
+    )
+    assert(
+      Flow("normal", "basic", "normal") == "同じプランへの変更はできません。"
+    )
+    assert(
+      Flow("normal", "basic", "mega") == "メガプランはプレミアム会員専用です。"
+    )
+    assert(
+      Flow("normal", "premium", "mega").contains("変更しました")
     )
   }
 }
