@@ -1,0 +1,15 @@
+apply plugin: 'java'
+apply plugin: 'groovy'
+
+group 'option-either-list'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.projectlombok:lombok:1.16.2'
+}
