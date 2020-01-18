@@ -1,5 +1,5 @@
 # Hoge Works
-## :star:
+## :star: ( ~ 10h )
 ### Words Printer
 文字列の変換と出力を行う処理を実装する
 
@@ -8,7 +8,15 @@
   + プロジェクトの作成から動くまでを作りきる
   + 配列操作
 
-## :star: :star:
+### Plan Check
+プランの情報を取り扱う処理を実装する
+
++ [README](./plan-check)
++ 主な学習観点
+  + 仕様変更
+  + レイヤー設計
+
+## :star: :star: ( ~ 20h )
 ### Format Converter
 軽量な行指向データのフォーマット変換を実装する
 
@@ -25,7 +33,7 @@
   + 比較・ソート
   + テストパターン設計
 
-## :star: :star: :star: :star:
+## :star: :star: :star: :star: ( ~ 40h )
 ### Line Editor
 簡易なラインエディタを実装する
 
