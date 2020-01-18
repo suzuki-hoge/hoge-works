@@ -13,33 +13,49 @@ class Builder {
     private List<String> _options = empty();
     private List<String> _sides = empty();
 
-    Builder main(String v) {
-        _main = v;
-        return this;
+    MainFixed てりやき() {
+        _main = "てりやき";
+        return new MainFixed();
     }
 
-    Builder drink(String v) {
-        _drink = v;
-        return this;
+    MainFixed チーズ() {
+        _main = "チーズ";
+        return new MainFixed();
     }
 
-    Builder options(String... vs) {
-        _options = List.of(vs);
-        return this;
+    class MainFixed {
+        DrinkFixed オレンジ() {
+            _drink = "オレンジ";
+            return new DrinkFixed();
+        }
+
+        DrinkFixed コーヒー(String... options) {
+            _drink = "コーヒー";
+            _options = List.of(options);
+            return new DrinkFixed();
+        }
     }
 
-    Builder sides(String... vs) {
-        _sides = List.of(vs);
-        return this;
+    class DrinkFixed {
+        SidesFixed なし() {
+            return new SidesFixed();
+        }
+
+        SidesFixed サイド(String first, String... remains) {
+            _sides = List.of(first).appendAll(List.of(remains));
+            return new SidesFixed();
+        }
     }
 
-    String build() {
-        return format(
-                "{ 'main': '%s', 'drink': '%s', 'options': [%s], 'sides': [%s] }",
-                _main,
-                _drink,
-                _options.map(it -> format("'%s'", it)).mkString(", "),
-                _sides.map(it -> format("'%s'", it)).mkString(", ")
-        );
+    class SidesFixed {
+        String build() {
+            return format(
+                    "{ 'main': '%s', 'drink': '%s', 'options': [%s], 'sides': [%s] }",
+                    _main,
+                    _drink,
+                    _options.map(it -> format("'%s'", it)).mkString(", "),
+                    _sides.map(it -> format("'%s'", it)).mkString(", ")
+            );
+        }
     }
 }

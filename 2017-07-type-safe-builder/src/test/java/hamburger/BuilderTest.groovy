@@ -12,8 +12,8 @@ class BuilderTest extends Specification {
         where:
         //@formatter:off
         fixture                                        || exp
-        Fixture.てりやき_オレンジ                      || Builder.init().main('てりやき').drink('オレンジ').build()
-        Fixture.チーズ_コーヒー_ミルク_ポテト_ナゲット || Builder.init().main('チーズ').drink('コーヒー').options("ミルク").sides("ポテト", "ナゲット").build()
+        Fixture.てりやき_オレンジ                      || Builder.init().てりやき().オレンジ().なし().build()
+        Fixture.チーズ_コーヒー_ミルク_ポテト_ナゲット || Builder.init().チーズ().コーヒー('ミルク').サイド('ポテト', 'ナゲット').build()
         //@formatter:on
     }
 }
