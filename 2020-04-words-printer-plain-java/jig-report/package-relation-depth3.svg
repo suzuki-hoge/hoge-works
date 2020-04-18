@@ -1,0 +1,93 @@
+<svg width="211px" height="336px"
+ viewBox="0.00 0.00 210.93 336.46" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform=" rotate(0) translate(4 332.4601)">
+<title>%3</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-332.4601 206.9311,-332.4601 206.9311,4 -4,4"/>
+<text text-anchor="middle" x="101.4656" y="-15.62" font-family="Times,serif" font-size="14.00" fill="#000000">パッケージ関連図 [2019.7.2]</text>
+<g id="clust1" class="cluster">
+<title>cluster_wp.safe</title>
+<polygon fill="#fffacd" stroke="#eedd82" stroke-width="2" points="48.1948,-38.82 48.1948,-184.82 194.1948,-184.82 194.1948,-38.82 48.1948,-38.82"/>
+<text text-anchor="middle" x="121.1948" y="-169.62" font-family="Times,serif" font-size="14.00" fill="#000000">wp.safe</text>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_wp</title>
+<polygon fill="#fffacd" stroke="#eedd82" stroke-width="2" points="124.1948,-192.82 124.1948,-266.82 194.1948,-266.82 194.1948,-192.82 124.1948,-192.82"/>
+<text text-anchor="middle" x="159.1948" y="-251.62" font-family="Times,serif" font-size="14.00" fill="#000000">wp</text>
+</g>
+<!-- summary -->
+<g id="node1" class="node">
+<title>summary</title>
+<polygon fill="none" stroke="#000000" points="108.5851,-328.2814 -.1955,-328.2814 -.1955,-274.9988 114.5851,-274.9988 114.5851,-322.2814 108.5851,-328.2814"/>
+<polyline fill="none" stroke="#000000" points="108.5851,-328.2814 108.5851,-322.2814 "/>
+<polyline fill="none" stroke="#000000" points="114.5851,-322.2814 108.5851,-322.2814 "/>
+<text text-anchor="start" x="8" y="-313.2601" font-family="Times,serif" font-size="14.00" fill="#000000">パッケージ数: 5</text>
+<text text-anchor="start" x="8" y="-290.4401" font-family="Times,serif" font-size="14.00" fill="#000000">関連数: 6</text>
+</g>
+<!-- wp.safe.format -->
+<g id="node2" class="node">
+<title>wp.safe.format</title>
+<polygon fill="#eedd82" stroke="#000000" points="186.1948,-154.82 132.1948,-154.82 132.1948,-118.82 186.1948,-118.82 186.1948,-154.82"/>
+<text text-anchor="middle" x="159.1948" y="-132.62" font-family="Times,serif" font-size="14.00" fill="#000000">format</text>
+</g>
+<!-- wp.safe.core -->
+<g id="node3" class="node">
+<title>wp.safe.core</title>
+<polygon fill="#eedd82" stroke="#000000" points="186.1948,-82.82 132.1948,-82.82 132.1948,-46.82 186.1948,-46.82 186.1948,-82.82"/>
+<text text-anchor="middle" x="159.1948" y="-60.62" font-family="Times,serif" font-size="14.00" fill="#000000">core</text>
+</g>
+<!-- wp.safe.format&#45;&gt;wp.safe.core -->
+<g id="edge1" class="edge">
+<title>wp.safe.format&#45;&gt;wp.safe.core</title>
+<path fill="none" stroke="#000000" d="M159.1948,-118.6514C159.1948,-110.951 159.1948,-101.7944 159.1948,-93.2367"/>
+<polygon fill="#000000" stroke="#000000" points="162.6949,-93.2333 159.1948,-83.2333 155.6949,-93.2333 162.6949,-93.2333"/>
+</g>
+<!-- wp.safe.convert -->
+<g id="node4" class="node">
+<title>wp.safe.convert</title>
+<polygon fill="#eedd82" stroke="#000000" points="114.1743,-154.82 56.2153,-154.82 56.2153,-118.82 114.1743,-118.82 114.1743,-154.82"/>
+<text text-anchor="middle" x="85.1948" y="-132.62" font-family="Times,serif" font-size="14.00" fill="#000000">convert</text>
+</g>
+<!-- wp.safe.convert&#45;&gt;wp.safe.core -->
+<g id="edge2" class="edge">
+<title>wp.safe.convert&#45;&gt;wp.safe.core</title>
+<path fill="none" stroke="#000000" d="M103.8681,-118.6514C112.7197,-110.0391 123.4434,-99.6052 133.0843,-90.2249"/>
+<polygon fill="#000000" stroke="#000000" points="135.8009,-92.465 140.5275,-82.9829 130.9194,-87.4479 135.8009,-92.465"/>
+</g>
+<!-- wp.unsafe -->
+<g id="node5" class="node">
+<title>wp.unsafe</title>
+<polygon fill="#eedd82" stroke="#000000" points="186.1948,-236.82 132.1948,-236.82 132.1948,-200.82 186.1948,-200.82 186.1948,-236.82"/>
+<text text-anchor="middle" x="159.1948" y="-214.62" font-family="Times,serif" font-size="14.00" fill="#000000">unsafe</text>
+</g>
+<!-- wp.unsafe&#45;&gt;wp.safe.format -->
+<g id="edge5" class="edge">
+<title>wp.unsafe&#45;&gt;wp.safe.format</title>
+<path fill="none" stroke="#000000" d="M159.1948,-200.6216C159.1948,-190.2177 159.1948,-176.9416 159.1948,-165.1968"/>
+<polygon fill="#000000" stroke="#000000" points="162.6949,-164.9676 159.1948,-154.9676 155.6949,-164.9677 162.6949,-164.9676"/>
+</g>
+<!-- wp.unsafe&#45;&gt;wp.safe.core -->
+<g id="edge4" class="edge">
+<title>wp.unsafe&#45;&gt;wp.safe.core</title>
+<path fill="none" stroke="#000000" d="M184.0914,-200.5587C188.6062,-195.9676 192.6766,-190.6621 195.1948,-184.82 206.8061,-157.8827 203.6952,-146.8947 195.1948,-118.82 192.2384,-109.0556 186.8696,-99.4429 181.1649,-91.0962"/>
+<polygon fill="#000000" stroke="#000000" points="183.9077,-88.9173 175.1853,-82.9031 178.2534,-93.044 183.9077,-88.9173"/>
+</g>
+<!-- wp.unsafe&#45;&gt;wp.safe.convert -->
+<g id="edge3" class="edge">
+<title>wp.unsafe&#45;&gt;wp.safe.convert</title>
+<path fill="none" stroke="#000000" d="M138.8863,-200.6096C133.6268,-195.6347 128.0737,-190.144 123.1948,-184.82 117.0013,-178.0615 110.6677,-170.4085 104.9915,-163.231"/>
+<polygon fill="#000000" stroke="#000000" points="107.5774,-160.8545 98.6779,-155.1056 102.0499,-165.1495 107.5774,-160.8545"/>
+</g>
+<!-- wp -->
+<g id="node6" class="node">
+<title>wp</title>
+<polygon fill="#eedd82" stroke="#000000" points="186.1948,-319.6401 132.1948,-319.6401 132.1948,-283.6401 186.1948,-283.6401 186.1948,-319.6401"/>
+<text text-anchor="middle" x="159.1948" y="-297.4401" font-family="Times,serif" font-size="14.00" fill="#000000">wp</text>
+</g>
+<!-- wp&#45;&gt;wp.unsafe -->
+<g id="edge6" class="edge">
+<title>wp&#45;&gt;wp.unsafe</title>
+<path fill="none" stroke="#000000" d="M159.1948,-283.2596C159.1948,-272.5707 159.1948,-258.8801 159.1948,-246.8692"/>
+<polygon fill="#000000" stroke="#000000" points="162.6949,-246.8641 159.1948,-236.8642 155.6949,-246.8642 162.6949,-246.8641"/>
+</g>
+</g>
+</svg>
