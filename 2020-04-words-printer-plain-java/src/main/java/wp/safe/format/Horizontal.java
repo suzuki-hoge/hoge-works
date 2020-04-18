@@ -8,6 +8,8 @@ import wp.safe.core.Words;
 public class Horizontal implements Formatter {
     @Override
     public Line apply(Words words) {
-        return null; // todo impl
+        return new Line(
+                String.join(" ", words.raw())
+        );
     }
 }

@@ -7,6 +7,6 @@ import wp.safe.core.Words;
 public class Reverse implements Converter {
     @Override
     public Words apply(Words words) {
-        return null; // todo impl
+        return words.reverse();
     }
 }
