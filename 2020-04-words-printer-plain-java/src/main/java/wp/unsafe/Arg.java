@@ -4,13 +4,17 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 class Arg {
-    private final String v;
+    final String v;
+
+    boolean empty() {
+        return v.trim().equals("");
+    }
 
     boolean notOption() {
-        return false; // todo impl
+        return !v.startsWith("--");
     }
 
     boolean isOption(String s) {
-        return false; // todo impl
+        return v.equals("--" + s);
     }
 }
