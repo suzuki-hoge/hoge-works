@@ -1,0 +1,13 @@
+.DS_Store
+target/
+.settings/
+.idea/
+*.iml
+.classpath
+.project
+src/main/webapp/WEB-INF/classes/
+build/
+.gradle
+classes/*
+out/
+
